@@ -1,0 +1,9 @@
+# Abhängigkeiten (immer ignorieren!)
+node_modules
+
+# Dein kompilierter Code (und damit auch die .map Dateien darin)
+build/
+dist/
+
+# Systemdateien (Mac)
+.DS_Store
