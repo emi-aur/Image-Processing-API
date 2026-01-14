@@ -3,14 +3,14 @@ import fs from "fs";
 import sharp from "sharp";
 import path from "path";
 
-const image_1 = express.Router();
+const images = express.Router();
 
 // Determine the correct assets path (works for both src and dist)
 const assetsPath = fs.existsSync(path.join(__dirname, "../../assets/full"))
   ? path.join(__dirname, "../../assets")
   : path.join(__dirname, "../../../src/assets");
 
-image_1.get("/", async (req, res) => {
+images.get("/", async (req, res) => {
   const filename = req.query.filename as string;
   const width = parseInt(req.query.width as string) || 200;
   const height = parseInt(req.query.height as string) || 200;
@@ -43,4 +43,4 @@ image_1.get("/", async (req, res) => {
   }
 });
 
-export default image_1;
+export default images;

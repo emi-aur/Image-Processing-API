@@ -1,6 +1,6 @@
 import express from "express";
-import image_1 from "./api/image_1";
-import image_2 from "./api/image_2";
+import image_1 from "./api/images";
+
 const routes = express.Router();
 
 routes.get("/", (req, res) => {
@@ -8,6 +8,5 @@ routes.get("/", (req, res) => {
 });
 
 routes.use("/image_1", image_1);
-routes.use("/image_2", image_2);
 
 export default routes;
