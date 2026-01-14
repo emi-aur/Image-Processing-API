@@ -20,26 +20,26 @@ images.get("/", async (req, res) => {
   const outputPath = path.join(thumbDir, `${width}x${height}_${filename}`);
 
   try {
-    // 1. CACHING-CHECK: Existiert das Bild schon?
+    // 1. CACHING-CHECK: is the image already existing?
     if (fs.existsSync(outputPath)) {
       return res.sendFile(outputPath);
     }
 
-    // 2. SICHERHEIT: Existiert der Thumb-Ordner?
+    // 2. SECURITY: Does the thumb directory exist?
     if (!fs.existsSync(thumbDir)) {
       fs.mkdirSync(thumbDir, { recursive: true });
     }
 
-    // 3. VERARBEITUNG: Bild existiert noch nicht -> Erstellen
+    // 3. PROCESSING: Image does not exist yet -> Create
     if (!fs.existsSync(inputPath)) {
-      return res.status(404).send("Originalbild nicht gefunden");
+      return res.status(404).send("original picture not found");
     }
     await sharp(inputPath).resize(width, height).toFile(outputPath);
 
     res.sendFile(outputPath);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Fehler beim Resizen");
+    res.status(500).send("error resizing image");
   }
 });
 
