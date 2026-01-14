@@ -1,9 +1,41 @@
-import express from 'express';
+import express from "express";
+import fs from "fs";
+import sharp from "sharp";
+import path from "path";
+
 const image_1 = express.Router();
 
+image_1.get("/", async (req, res) => {
+    const filename = req.query.filename as string;
+    const width = parseInt(req.query.width as string) || 200;
+    const height = parseInt(req.query.height as string) || 200;
 
-image_1.get('/', (req, res) => {
-    res.send('image_1');
+    const inputPath = path.join(__dirname, "../../assets/full", filename);
+    const thumbDir = path.join(__dirname, "../../assets/thumb");
+    const outputPath = path.join(thumbDir, `${width}x${height}_${filename}`);
+
+    try {
+        // 1. CACHING-CHECK: Existiert das Bild schon?
+        if (fs.existsSync(outputPath)) {
+            return res.sendFile(outputPath);
+        }
+
+        // 2. SICHERHEIT: Existiert der Thumb-Ordner?
+        if (!fs.existsSync(thumbDir)) {
+            fs.mkdirSync(thumbDir, { recursive: true });
+        }
+
+        // 3. VERARBEITUNG: Bild existiert noch nicht -> Erstellen
+        if (!fs.existsSync(inputPath)) {
+            return res.status(404).send("Originalbild nicht gefunden");
+        }
+        await sharp(inputPath).resize(width, height).toFile(outputPath);
+
+        res.sendFile(outputPath);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Fehler beim Resizen");
+    }
 });
 
 export default image_1;

@@ -42,5 +42,5 @@
     "skipLibCheck": true
   },
   "exclude": ["node_modules", "./dist", "spec", "eslint.config.mjs"],
-  "include": ["src/**/*" ]
+  "include": ["src/**/*"]
 }
