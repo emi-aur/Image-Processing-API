@@ -5,13 +5,18 @@ import path from "path";
 
 const image_1 = express.Router();
 
+// Determine the correct assets path (works for both src and dist)
+const assetsPath = fs.existsSync(path.join(__dirname, "../../assets/full"))
+  ? path.join(__dirname, "../../assets")
+  : path.join(__dirname, "../../../src/assets");
+
 image_1.get("/", async (req, res) => {
     const filename = req.query.filename as string;
     const width = parseInt(req.query.width as string) || 200;
     const height = parseInt(req.query.height as string) || 200;
 
-    const inputPath = path.join(__dirname, "../../assets/full", filename);
-    const thumbDir = path.join(__dirname, "../../assets/thumb");
+    const inputPath = path.join(assetsPath, "full", filename);
+    const thumbDir = path.join(assetsPath, "thumb");
     const outputPath = path.join(thumbDir, `${width}x${height}_${filename}`);
 
     try {

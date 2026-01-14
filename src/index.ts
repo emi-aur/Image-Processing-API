@@ -4,13 +4,12 @@ const app = express();
 const port = 3000;
 
 app.use("/api", routes);
-// start the express server
-app.listen(port, () => {
-  console.log(`Server is running at localhost:${port}`);
-});
 
-const myFunc = (num: number): number => {
-  return num * num;
-};
+// Only start the server if not being imported for testing
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server is running at localhost:${port}`);
+  });
+}
 
-export default myFunc;
+export default app;
