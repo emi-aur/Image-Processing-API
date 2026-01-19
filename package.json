@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
-  "author": "Emily Aurig",
+  "author": "",
   "main": "index.js",
   "scripts": {
     "test": "npm run build && npm run jasmine",
