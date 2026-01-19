@@ -9,7 +9,7 @@ const assetsPath = fs.existsSync(path.join(__dirname, "../../assets/full"))
 export async function processImage(
   filename: string,
   width: number,
-  height: number
+  height: number,
 ): Promise<string> {
   const inputPath = path.join(assetsPath, "full", filename);
   const thumbDir = path.join(assetsPath, "thumb");
