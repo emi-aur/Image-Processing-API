@@ -1,8 +1,8 @@
 import supertest from "supertest";
 import app from "../index";
-import { processImage } from "../modules/imageProcessor";  
-import fs from "fs";                                        
-import path from "path";  
+import { processImage } from "../modules/imageProcessor";
+import fs from "fs";
+import sharp from "sharp";
 
 const request = supertest(app);
 
@@ -43,10 +43,7 @@ describe("GET /api/images", () => {
   });
 });
 
-
-
 describe("Image Processing Function", () => {
-  
   it("should successfully process an image", async () => {
     const testFilename = "icelandwaterfall.jpg";
     const testWidth = 250;
@@ -65,7 +62,7 @@ describe("Image Processing Function", () => {
     const testHeight = 150;
 
     await expectAsync(
-      processImage(testFilename, testWidth, testHeight)
+      processImage(testFilename, testWidth, testHeight),
     ).toBeResolved();
   });
 
@@ -75,7 +72,7 @@ describe("Image Processing Function", () => {
     const testHeight = 200;
 
     await expectAsync(
-      processImage(testFilename, testWidth, testHeight)
+      processImage(testFilename, testWidth, testHeight),
     ).toBeRejectedWithError("Original image not found");
   });
 
@@ -87,7 +84,7 @@ describe("Image Processing Function", () => {
     const outputPath1 = await processImage(testFilename, testWidth, testHeight);
     const firstCallTime = fs.statSync(outputPath1).mtime;
 
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     const outputPath2 = await processImage(testFilename, testWidth, testHeight);
     const secondCallTime = fs.statSync(outputPath2).mtime;
@@ -103,11 +100,9 @@ describe("Image Processing Function", () => {
 
     const outputPath = await processImage(testFilename, testWidth, testHeight);
 
-    const sharp = require("sharp");
     const metadata = await sharp(outputPath).metadata();
 
     expect(metadata.width).toBe(testWidth);
     expect(metadata.height).toBe(testHeight);
   });
-
 });

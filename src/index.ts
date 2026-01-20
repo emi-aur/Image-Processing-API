@@ -7,7 +7,7 @@ app.use("/api", routes);
 
 // Only start the server if not being imported for testing
 if (require.main === module) {
-  app.listen(port, () => {
+  app.listen(port, (): void => {
     console.log(`Server is running at localhost:${port}`);
   });
 }
