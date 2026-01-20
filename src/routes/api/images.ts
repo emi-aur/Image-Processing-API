@@ -41,11 +41,6 @@ images.get("/", async (req: express.Request, res: express.Response) => {
     return res.status(400).send("Width must be a positive number");
   }
 
-  // Optional: Check maximum width (z.B. 5000px)
-  if (width > 5000) {
-    return res.status(400).send("Width must not exceed 5000 pixels");
-  }
-
   // Validate height parameter
   if (!heightParam) {
     return res.status(400).send("Height is required");
@@ -65,10 +60,6 @@ images.get("/", async (req: express.Request, res: express.Response) => {
     return res.status(400).send("Height must be a positive number");
   }
 
-  // Optional: Check maximum height
-  if (height > 5000) {
-    return res.status(400).send("Height must not exceed 5000 pixels");
-  }
   try {
     const outputPath = await processImage(filename, width, height);
     res.sendFile(outputPath);
